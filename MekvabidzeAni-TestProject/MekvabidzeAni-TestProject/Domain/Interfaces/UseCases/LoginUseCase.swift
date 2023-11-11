@@ -6,7 +6,7 @@
 //
 
 protocol LoginUseCase {
-    func login(with email: String, with password: String, completion: @escaping ((Result<User?, AuthorizationError>) -> Void))
+    func execute(with email: String, with password: String, completion: @escaping ((Result<User?, AuthorizationError>) -> Void))
 }
 
 class LoginUseCaseImp: LoginUseCase {
@@ -16,7 +16,7 @@ class LoginUseCaseImp: LoginUseCase {
         self.repository = repository
     }
     
-    func login(with email: String, with password: String, completion: @escaping ((Result<User?, AuthorizationError>) -> Void)) {
+    func execute(with email: String, with password: String, completion: @escaping ((Result<User?, AuthorizationError>) -> Void)) {
         repository.login(with: email, with: password, completion: completion)
     }
 }

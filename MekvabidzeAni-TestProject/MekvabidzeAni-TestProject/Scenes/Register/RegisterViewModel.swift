@@ -23,7 +23,7 @@ final class DefaultRegisterViewModel: RegisterViewModel {
     
     func registration(email: String, age: String, password: String) -> Bool {
         var registrationSuccess = false
-        registerUseCase.register(withEmail: email, withAge: age, withPassword: password) { success in
+        registerUseCase.execute(withEmail: email, withAge: age, withPassword: password) { success in
             print("Registration is successful : \(success)")
             registrationSuccess = success
         }

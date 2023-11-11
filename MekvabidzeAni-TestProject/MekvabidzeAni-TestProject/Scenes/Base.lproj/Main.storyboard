@@ -16,34 +16,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sdcsdcdc  sdcsdcsdc" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8c-XH-KJJ">
-                                <rect key="frame" x="16" y="396" width="361" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="tBv-jE-aOW"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8c-XH-KJJ">
+                                <rect key="frame" x="16" y="351" width="361" height="419"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.74228940369999996" green="0.3841559927" blue="0.39035525879999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="saX-ir-jZZ">
-                                <rect key="frame" x="32" y="131" width="329" height="184"/>
+                                <rect key="frame" x="32" y="131" width="329" height="204"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="204" id="DMF-aW-oOD"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0HU-KW-mI7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="0HU-KW-mI7" firstAttribute="trailing" secondItem="saX-ir-jZZ" secondAttribute="trailing" constant="32" id="ENH-ge-733"/>
-                            <constraint firstItem="Q8c-XH-KJJ" firstAttribute="centerY" secondItem="wtd-ee-AVf" secondAttribute="centerY" id="Gdx-Lj-CUj"/>
                             <constraint firstItem="Q8c-XH-KJJ" firstAttribute="leading" secondItem="0HU-KW-mI7" secondAttribute="leading" constant="16" id="Uuv-JV-GTx"/>
                             <constraint firstItem="saX-ir-jZZ" firstAttribute="leading" secondItem="0HU-KW-mI7" secondAttribute="leading" constant="32" id="WLM-AR-CS7"/>
                             <constraint firstItem="0HU-KW-mI7" firstAttribute="trailing" secondItem="Q8c-XH-KJJ" secondAttribute="trailing" constant="16" id="hju-1q-Qdq"/>
-                            <constraint firstItem="Q8c-XH-KJJ" firstAttribute="top" secondItem="saX-ir-jZZ" secondAttribute="bottom" constant="81" id="jPH-Lc-MFW"/>
+                            <constraint firstItem="Q8c-XH-KJJ" firstAttribute="top" secondItem="saX-ir-jZZ" secondAttribute="bottom" constant="16" id="jPH-Lc-MFW"/>
                             <constraint firstItem="saX-ir-jZZ" firstAttribute="top" secondItem="0HU-KW-mI7" secondAttribute="top" constant="28" id="qoo-hX-ym8"/>
+                            <constraint firstItem="0HU-KW-mI7" firstAttribute="bottom" secondItem="Q8c-XH-KJJ" secondAttribute="bottom" constant="48" id="sg1-sr-SMK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="X8s-SM-NDr"/>
                     <connections>
-                        <outlet property="imagee" destination="saX-ir-jZZ" id="B8x-n1-HBw"/>
+                        <outlet property="image" destination="saX-ir-jZZ" id="B8x-n1-HBw"/>
                         <outlet property="photoDetailLabel" destination="Q8c-XH-KJJ" id="Kb8-Co-6Kb"/>
                     </connections>
                 </viewController>

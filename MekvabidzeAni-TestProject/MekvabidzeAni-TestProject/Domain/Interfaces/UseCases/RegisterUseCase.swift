@@ -6,7 +6,7 @@
 //
 
 protocol RegisterUseCase {
-    func register(withEmail email: String, withAge age: String, withPassword password: String, completion: @escaping ((Bool) -> Void))
+    func execute(withEmail email: String, withAge age: String, withPassword password: String, completion: @escaping ((Bool) -> Void))
 }
 
 class RegisterUseCaseImp: RegisterUseCase {
@@ -16,7 +16,7 @@ class RegisterUseCaseImp: RegisterUseCase {
         self.repository = repository
     }
     
-    func register(withEmail email: String, withAge age: String, withPassword password: String, completion: @escaping ((Bool) -> Void)) {
+    func execute(withEmail email: String, withAge age: String, withPassword password: String, completion: @escaping ((Bool) -> Void)) {
         repository.register(withEmail: email, withAge: age, withPassword: password, completion: completion)
     }
 }

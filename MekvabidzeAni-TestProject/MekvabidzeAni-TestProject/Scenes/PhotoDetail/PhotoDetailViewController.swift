@@ -10,23 +10,20 @@ import Kingfisher
 
 class PhotoDetailViewController: UIViewController {
 
-    @IBOutlet weak var imagee: UIImageView!
+    @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var photoDetailLabel: UILabel!
     
     var imageViewModel: ImageViewModel?
-//    var comments = ""
-//    var likes = ""
-//    var downloads = ""
-//    var imageURL: URL?
-  
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .systemBackground
-        var m = "\(imageViewModel?.likes)" + "\(imageViewModel?.userName)"
-        photoDetailLabel.text = m
-        imagee.kf.setImage(with: imageViewModel?.imageURL)
+        
+        let labelText = "\(imageViewModel?.likes ?? "")\n" + "\(imageViewModel?.userName ?? "")\n" + "\(imageViewModel?.id ?? "")\n" + "\(imageViewModel?.tags ?? "")\n" + "\(imageViewModel?.views ?? "")\n" + "\(imageViewModel?.downloads ?? "")\n" + "\(imageViewModel?.collections ?? "")\n" + "\(imageViewModel?.comments ?? "")\n" + "\(imageViewModel?.type ?? "")\n" + "\(imageViewModel?.imageParameters ?? "")\n"
+        
+        photoDetailLabel.text = labelText
+        image.kf.setImage(with: imageViewModel?.imageURL)
 
     }
     

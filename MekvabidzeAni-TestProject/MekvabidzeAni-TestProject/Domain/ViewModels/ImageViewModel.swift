@@ -21,27 +21,35 @@ class ImageViewModel {
     }
     
     var id: String {
-        return "id:" + "\(imageEntity.id) "
+        return "id: " + "\(imageEntity.id) "
     }
     
     var tags: String {
-        return "tags:" + "\(imageEntity.tags) "
+        return "tags: " + "\(imageEntity.tags) "
     }
     
     var views: String {
-        return "views:" + "\(imageEntity.views) "
+        return "views: " + "\(imageEntity.views) "
     }
     
     var downloads: String {
-        return "downloads:" + "\(imageEntity.downloads) "
+        return "downloads: " + "\(imageEntity.downloads) "
     }
     
     var collections: String {
-        return "collections:" + "\(imageEntity.collections) "
+        return "collections: " + "\(imageEntity.collections) "
     }
     
     var comments: String {
-        return "comments:" + "\(imageEntity.comments) "
+        return "comments: " + "\(imageEntity.comments) "
+    }
+    
+    var type: String {
+        return "type: " + "\(imageEntity.type) "
+    }
+    
+    var imageParameters: String {
+        return "imageParameters: " + "\(imageEntity.imageWidth)" + "X" + "\(imageEntity.imageHeight) "
     }
     
     var imageSize: CGSize {

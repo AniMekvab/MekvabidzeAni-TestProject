@@ -70,9 +70,7 @@ extension PhotoGalleryViewController: UITableViewDataSource, UITableViewDelegate
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Get Cell Label
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
         print("indexPath:", indexPath)
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController
         vc?.imageViewModel = viewModel.imageViewModel(at: indexPath)
