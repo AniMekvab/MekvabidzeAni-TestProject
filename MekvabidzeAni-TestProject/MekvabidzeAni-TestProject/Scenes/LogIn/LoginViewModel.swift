@@ -21,7 +21,7 @@ final class DefaultLoginViewModel: LoginViewModel {
     }
     
     func login(email: String, password: String, completion: @escaping ((Result<User?, AuthorizationError>) -> Void)) {
-        loginUseCase.login(with: email, with: password, completion: completion)
+        loginUseCase.execute(with: email, with: password, completion: completion)
     }
     
 }

@@ -13,10 +13,12 @@ class ImagesViewModel: ObservableObject {
     @Published private(set) var imageViewModels: [ImageViewModel] = []
 
     private var subscriptions: Set<AnyCancellable> = []
-    private let imagesService: ImageServiceProtocol
+    private let pixabayImageUseCase: PixabayImageUseCase
     
-    init(imagesService: ImageServiceProtocol = PixabayImageService()) {
-        self.imagesService = imagesService
+    init(pixabayImageUseCase: PixabayImageUseCase = PixabayImageUseCaseImp(
+        repository: PixabayImageRepositoryImp(
+            pixabayImageServiceProtocol: PixabayImageService()))) {
+        self.pixabayImageUseCase = pixabayImageUseCase
         $inputQuery
             .sink { [unowned self] (value) in
             self.fetchImages(with: value)
@@ -25,7 +27,7 @@ class ImagesViewModel: ObservableObject {
     
     private func fetchImages(with query: String) {
         let loader = KingfisherLoader()
-        imagesService.queryImages(with: query, pageNumber: 1, imagesPerPage: 100).sink { (completion) in
+        pixabayImageUseCase.execute(with: query, pageNumber: 1, imagesPerPage: 100).sink { (completion) in
             switch completion {
             case .finished:
                 print("task has finished")

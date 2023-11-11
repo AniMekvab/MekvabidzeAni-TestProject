@@ -8,7 +8,11 @@
 import Foundation
 import Combine
 
-class PixabayImageService: ImageServiceProtocol {
+protocol PixabayImageServiceProtocol {
+    func queryImages(with query: String, pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error>
+}
+
+class PixabayImageService: PixabayImageServiceProtocol {
     func queryImages(with query: String, pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error> {
         
         var components = URLComponents(string: "https://pixabay.com/api")!
