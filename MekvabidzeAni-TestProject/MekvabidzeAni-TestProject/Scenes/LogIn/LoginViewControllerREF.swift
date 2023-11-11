@@ -25,7 +25,7 @@ class LoginViewControllerREF: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+    //test commit
     private lazy var emailTextField: CustomTextField = .init(model: .init(placeholder: "Email",
                                                                           delegate: self,
                                                                           status: .normal))
