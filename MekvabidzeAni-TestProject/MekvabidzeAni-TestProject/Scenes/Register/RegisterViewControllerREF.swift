@@ -127,7 +127,7 @@ extension RegisterViewControllerREF {
     }
     
     private func checkInputs() -> Bool {
-        return emailTextField.hasText || passwordTextField.hasText
+        return emailTextField.hasText || ageTextField.hasText || passwordTextField.hasText
     }
     
     private func showAlert(with message: String) {

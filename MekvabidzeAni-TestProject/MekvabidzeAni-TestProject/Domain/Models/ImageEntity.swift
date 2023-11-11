@@ -19,4 +19,7 @@ struct ImageEntity: Decodable {
     let likes: Int
     let comments: Int
     let user: String
+    
+//    enum CodingKeys: String, CodingKey {
+//    }
 }
