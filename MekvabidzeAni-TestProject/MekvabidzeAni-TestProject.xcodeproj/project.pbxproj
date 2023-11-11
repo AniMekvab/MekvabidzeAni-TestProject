@@ -154,7 +154,7 @@
 		633DC5142AFD3E1100F45D66 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				632E91BB2AF98C6400CBB6BE /* LaunchScreen.storyboard */,
+				63F59BE52B0000170063B39F /* Launch */,
 				632E91B32AF98C6200CBB6BE /* Main.storyboard */,
 				633DC5192AFD3F3A00F45D66 /* LogIn */,
 				633DC51A2AFD3F4300F45D66 /* Register */,
@@ -316,6 +316,14 @@
 				63F59BE12AFFFD590063B39F /* ImageLoader.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		63F59BE52B0000170063B39F /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				632E91BB2AF98C6400CBB6BE /* LaunchScreen.storyboard */,
+			);
+			path = Launch;
 			sourceTree = "<group>";
 		};
 		71F28D002AFEB82A00CD6095 /* Components */ = {

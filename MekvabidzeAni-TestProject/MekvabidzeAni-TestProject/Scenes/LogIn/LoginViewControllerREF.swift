@@ -99,35 +99,41 @@ extension LoginViewControllerREF {
         passwordTextField.resignFirstResponder()
         emailTextField.resignFirstResponder()
         
-        if checkInputs() {
-            if CheckValidation.isValidEmail(email) {
-                if CheckValidation.isValidPassword(password) {
-                    loginUser()
-                } else {
-//                    passwordTextField.setStatus(.error("Password not Valid"))
-                    self.showAlert(with: "Password not Valid")
-                }
-            } else {
-//                emailTextField.setStatus(.error("Email not Valid"))
-                self.showAlert(with: "Email not Valid")
-            }
-        } else {
-            showAlert(with: "Feel All Fields")
-        }
+        let vc = PhotoGalleryViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+//        if checkInputs() {
+//            if CheckValidation.isValidEmail(email) {
+//                if CheckValidation.isValidPassword(password) {
+//                    loginUser()
+//                } else {
+////                    passwordTextField.setStatus(.error("Password not Valid"))
+//                    self.showAlert(with: "Password not Valid")
+//                }
+//            } else {
+////                emailTextField.setStatus(.error("Email not Valid"))
+//                self.showAlert(with: "Email not Valid")
+//            }
+//        } else {
+//            showAlert(with: "Feel All Fields")
+//        }
     }
     
     @objc private func registerButtonTapped() {
-        let vc = UIStoryboard.init(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "RegisterViewControllerREF") as? RegisterViewControllerREF
-        
-        self.navigationController?.pushViewController(vc!, animated: true)
+        let vc = RegisterViewControllerREF(
+            viewModel: DefaultRegisterViewModel.init(
+                with: RegisterUseCaseImp(
+                    repository: AuthorizationRepositoryImp(
+                        coreDataManager: CoreDataManager()))))
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func loginUser() {
         viewModel.login(email: email, password: password) { [weak self] result in
             switch result {
             case .success(_):
-                let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoGalleryViewController") as? PhotoGalleryViewController
-                self?.navigationController?.pushViewController(vc!, animated: true)
+                let vc = PhotoGalleryViewController()
+                self?.navigationController?.pushViewController(vc, animated: true)
             case .failure(let error):
                 if error == .userNotFound {
                     self?.showAlert(with: "Something went wrong, username or passcode is incorrect!")
