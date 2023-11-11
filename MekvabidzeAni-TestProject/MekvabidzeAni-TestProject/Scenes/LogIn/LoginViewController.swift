@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    //test commit
+
     private lazy var emailTextField: CustomTextField = .init(model: .init(placeholder: "Email",
                                                                           delegate: self,
                                                                           status: .normal))
@@ -96,8 +96,8 @@ extension LoginViewController {
 extension LoginViewController {
     @objc private func loginButtonTapped() {
         // to dismiss keyboard
-        passwordTextField.textField.resignFirstResponder()
-        emailTextField.textField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
 
         let vc = PhotoGalleryViewController()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -160,10 +160,10 @@ extension LoginViewController {
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == emailTextField.textField {
-            passwordTextField.textField.becomeFirstResponder()
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
         }
-        else if textField == passwordTextField.textField {
+        else if textField == passwordTextField {
             loginButtonTapped()
         }
         return true
