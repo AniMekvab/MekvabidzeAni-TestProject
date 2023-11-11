@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class ImagesViewModel: ObservableObject {
-    @Published var inputQuery: String = "Dog"
+    @Published var input: String = ""
     @Published private(set) var imageViewModels: [ImageViewModel] = []
 
     private var subscriptions: Set<AnyCancellable> = []
@@ -19,15 +19,15 @@ class ImagesViewModel: ObservableObject {
         repository: PixabayImageRepositoryImp(
             pixabayImageServiceProtocol: PixabayImageService()))) {
         self.pixabayImageUseCase = pixabayImageUseCase
-        $inputQuery
+        $input
             .sink { [unowned self] (value) in
-            self.fetchImages(with: value)
+            self.fetchPixabayImages()
         }.store(in: &subscriptions)
     }
     
-    private func fetchImages(with query: String) {
+    private func fetchPixabayImages() {
         let loader = KingfisherLoader()
-        pixabayImageUseCase.execute(with: query, pageNumber: 1, imagesPerPage: 100).sink { (completion) in
+        pixabayImageUseCase.execute(pageNumber: 1, imagesPerPage: 100).sink { (completion) in
             switch completion {
             case .finished:
                 print("task has finished")
@@ -39,7 +39,7 @@ class ImagesViewModel: ObservableObject {
         }.store(in: &subscriptions)
 
     }
-    
+
     func imageViewModel(at indexPath: IndexPath) -> ImageViewModel {
         return imageViewModels[indexPath.row]
     }

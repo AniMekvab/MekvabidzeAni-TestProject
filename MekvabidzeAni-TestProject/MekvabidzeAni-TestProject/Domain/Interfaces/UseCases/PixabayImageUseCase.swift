@@ -8,7 +8,7 @@
 import Combine
 
 protocol PixabayImageUseCase {
-    func execute(with query: String, pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error>
+    func execute(pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error>
 }
 
 class PixabayImageUseCaseImp: PixabayImageUseCase {
@@ -19,8 +19,8 @@ class PixabayImageUseCaseImp: PixabayImageUseCase {
         self.repository = repository
     }
     
-    func execute(with query: String, pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error> {
-        repository.queryImages(with: query, pageNumber: pageNumber, imagesPerPage: imagesPerPage)
+    func execute(pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error> {
+        repository.fetchImages(pageNumber: pageNumber, imagesPerPage: imagesPerPage)
     }
     
 }

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol PixabayImageRepository {
-    func queryImages(with query: String, pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error>
+    func fetchImages(pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error>
 }
 
 class PixabayImageRepositoryImp: PixabayImageRepository {
@@ -20,8 +20,8 @@ class PixabayImageRepositoryImp: PixabayImageRepository {
         self.pixabayImageServiceProtocol = pixabayImageServiceProtocol
     }
     
-    func queryImages(with query: String, pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error> {
-        pixabayImageServiceProtocol.queryImages(with: query, pageNumber: pageNumber, imagesPerPage: imagesPerPage)
+    func fetchImages(pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error> {
+        pixabayImageServiceProtocol.fetchImages(pageNumber: pageNumber, imagesPerPage: imagesPerPage)
     }
     
 }

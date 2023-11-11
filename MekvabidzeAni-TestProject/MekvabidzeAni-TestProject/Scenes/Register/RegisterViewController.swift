@@ -131,13 +131,10 @@ extension RegisterViewController {
     }
     
     private func showAlert(with message: String) {
-         
          let alert = UIAlertController(title: "",
                                        message: message,
                                        preferredStyle: .alert)
-
          alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
          self.present(alert, animated: true)
      }
      
@@ -156,7 +153,7 @@ extension RegisterViewController: UITextFieldDelegate{
         if textField == emailTextField {
             ageTextField.becomeFirstResponder()
         }
-        else if textField == ageTextField{
+        else if textField == ageTextField {
             passwordTextField.becomeFirstResponder()
         }
         else {
