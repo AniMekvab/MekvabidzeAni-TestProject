@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "5DFB2672-895E-451F-B255-860EAB1892B8"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "39CC1638-811B-48F0-BC76-EAE7E691D695"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TNET_Mekvaibdze_Ani_Test/Domain/Interfaces/UseCases/AuthorizationUseCase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48">
+            <Locations>
+               <Location
+                  uuid = "39CC1638-811B-48F0-BC76-EAE7E691D695 - 19d1df62668cbb7f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TNET_Mekvaibdze_Ani_Test.DefaultAuthorizationUseCase.execute(email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.Optional&lt;TNET_Mekvaibdze_Ani_Test.User&gt;, TNET_Mekvaibdze_Ani_Test.RegistrationError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "TNET_Mekvaibdze_Ani_Test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macuser/Desktop/TNET_Mekvaibdze_Ani_Test%202/TNET_Mekvaibdze_Ani_Test/Domain/Interfaces/UseCases/AuthorizationUseCase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "83">
+               </Location>
+               <Location
+                  uuid = "39CC1638-811B-48F0-BC76-EAE7E691D695 - 712b2219b1a1bd09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Optional&lt;TNET_Mekvaibdze_Ani_Test.User&gt;, TNET_Mekvaibdze_Ani_Test.RegistrationError&gt;) -&gt; () in TNET_Mekvaibdze_Ani_Test.DefaultAuthorizationUseCase.execute(email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.Optional&lt;TNET_Mekvaibdze_Ani_Test.User&gt;, TNET_Mekvaibdze_Ani_Test.RegistrationError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "TNET_Mekvaibdze_Ani_Test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macuser/Desktop/TNET_Mekvaibdze_Ani_Test%202/TNET_Mekvaibdze_Ani_Test/Domain/Interfaces/UseCases/AuthorizationUseCase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "145">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F1589E85-801B-4FA1-AA1E-1397EC7B7892"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TNET_Mekvaibdze_Ani_Test/Domain/Interfaces/UseCases/AuthorizationUseCase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "199FE4AD-9CB7-4E20-8FC4-0F03A8569275"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TNET_Mekvaibdze_Ani_Test/Domain/Interfaces/UseCases/AuthorizationUseCase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B435CC7C-C2E2-4CAE-8EC0-1C0D8FFF7AF2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TNET_Mekvaibdze_Ani_Test/Domain/Interfaces/UseCases/AuthorizationUseCase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
