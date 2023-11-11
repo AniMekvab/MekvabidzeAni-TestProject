@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 with: LoginUseCaseImp(
                     repository: AuthorizationRepositoryImp(
                         coreDataManager: CoreDataManager())))))
-        window?.makeKeyAndVisible()
+//        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
