@@ -28,7 +28,6 @@ class PhotoGalleryViewController: UIViewController {
         bindViewModel()
         setUpTableView()
         self.view.backgroundColor = .systemBackground
-        
     }
 
     func bindViewModel() {
@@ -69,5 +68,14 @@ extension PhotoGalleryViewController: UITableViewDataSource, UITableViewDelegate
         cell.viewModel = viewModel.imageViewModel(at: indexPath)
         return cell
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Get Cell Label
+        
+        print("indexPath:", indexPath)
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController
+        vc?.imageViewModel = viewModel.imageViewModel(at: indexPath)
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
 }

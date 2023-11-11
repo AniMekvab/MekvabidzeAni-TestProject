@@ -20,6 +20,30 @@ class ImageViewModel {
         return "user:" + "\(imageEntity.user) "
     }
     
+    var id: String {
+        return "id:" + "\(imageEntity.id) "
+    }
+    
+    var tags: String {
+        return "tags:" + "\(imageEntity.tags) "
+    }
+    
+    var views: String {
+        return "views:" + "\(imageEntity.views) "
+    }
+    
+    var downloads: String {
+        return "downloads:" + "\(imageEntity.downloads) "
+    }
+    
+    var collections: String {
+        return "collections:" + "\(imageEntity.collections) "
+    }
+    
+    var comments: String {
+        return "comments:" + "\(imageEntity.comments) "
+    }
+    
     var imageSize: CGSize {
         return .init(width: imageEntity.imageWidth, height: imageEntity.imageHeight)
     }

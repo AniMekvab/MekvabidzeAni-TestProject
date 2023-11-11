@@ -12,8 +12,8 @@ class LoginViewControllerREF: UIViewController {
     //MARK: - Variables
     
     private var viewModel: LoginViewModelREF
-    private var email: String { emailTextField.text ?? "" }
-    private var password: String { passwordTextField.text ?? "" }
+    private var email: String { emailTextField.textField.text ?? "" }
+    private var password: String { passwordTextField.textField.text ?? "" }
     
     // MARK: - Views
     
@@ -96,9 +96,9 @@ extension LoginViewControllerREF {
 extension LoginViewControllerREF {
     @objc private func loginButtonTapped() {
         // to dismiss keyboard
-        passwordTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-        
+        passwordTextField.textField.resignFirstResponder()
+        emailTextField.textField.resignFirstResponder()
+
         let vc = PhotoGalleryViewController()
         self.navigationController?.pushViewController(vc, animated: true)
         
@@ -107,12 +107,10 @@ extension LoginViewControllerREF {
 //                if CheckValidation.isValidPassword(password) {
 //                    loginUser()
 //                } else {
-////                    passwordTextField.setStatus(.error("Password not Valid"))
-//                    self.showAlert(with: "Password not Valid")
+//                    passwordTextField.setStatus(.error("Password not Valid"))
 //                }
 //            } else {
-////                emailTextField.setStatus(.error("Email not Valid"))
-//                self.showAlert(with: "Email not Valid")
+//                emailTextField.setStatus(.error("Email not Valid"))
 //            }
 //        } else {
 //            showAlert(with: "Feel All Fields")
@@ -146,7 +144,7 @@ extension LoginViewControllerREF {
     }
     
     private func checkInputs() -> Bool {
-        return emailTextField.hasText || passwordTextField.hasText
+        return emailTextField.textField.hasText || passwordTextField.textField.hasText 
     }
     
     private func showAlert(with message: String) {
@@ -162,10 +160,10 @@ extension LoginViewControllerREF {
 
 extension LoginViewControllerREF: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == emailTextField {
-            passwordTextField.becomeFirstResponder()
+        if textField == emailTextField.textField {
+            passwordTextField.textField.becomeFirstResponder()
         }
-        else if textField == passwordTextField {
+        else if textField == passwordTextField.textField {
             loginButtonTapped()
         }
         return true

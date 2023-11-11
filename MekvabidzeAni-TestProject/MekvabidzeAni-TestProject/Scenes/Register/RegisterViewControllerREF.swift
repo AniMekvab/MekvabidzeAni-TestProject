@@ -12,9 +12,9 @@ class RegisterViewControllerREF: UIViewController {
     // MARK: - Variables
     
     private var viewModel: RegisterViewModel
-    private var email: String { emailTextField.text ?? "" }
-    private var age: String { ageTextField.text ?? "" }
-    private var password: String { passwordTextField.text ?? "" }
+    private var email: String { emailTextField.textField.text ?? "" }
+    private var age: String { ageTextField.textField.text ?? "" }
+    private var password: String { passwordTextField.textField.text ?? "" }
     
     // MARK: - Views
     
@@ -31,7 +31,7 @@ class RegisterViewControllerREF: UIViewController {
                                                                           delegate: self,
                                                                           status: .normal))
     
-    private lazy var ageTextField: CustomTextField = .init(model: .init(placeholder: "Email",
+    private lazy var ageTextField: CustomTextField = .init(model: .init(placeholder: "Age",
                                                                         delegate: self,
                                                                         status: .normal))
     
@@ -106,13 +106,13 @@ extension RegisterViewControllerREF {
                     if CheckValidation.isValidPassword(password) {
                         registerUser()
                     } else {
-                        self.showAlert(with: "Password not Valid")
+                        passwordTextField.setStatus(.error("Password not Valid"))
                     }
                 } else {
-                    self.showAlert(with: "Age not Valid")
+                    emailTextField.setStatus(.error("Age not Valid"))
                 }
             } else {
-                self.showAlert(with: "Mail not Valid")
+                emailTextField.setStatus(.error("Email not Valid"))
             }
         } else {
             self.showAlert(with: "Feel All Fields")
@@ -121,13 +121,13 @@ extension RegisterViewControllerREF {
    
     private func registerUser() {
         if viewModel.registration(email: email, age: age, password: password) == true {
-            let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoGalleryViewController") as? PhotoGalleryViewController
-            self.navigationController?.pushViewController(vc!, animated: true)
+            let vc = PhotoGalleryViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     private func checkInputs() -> Bool {
-        return emailTextField.hasText || ageTextField.hasText || passwordTextField.hasText
+        return emailTextField.textField.hasText  || ageTextField.textField.hasText  || passwordTextField.textField.hasText 
     }
     
     private func showAlert(with message: String) {
