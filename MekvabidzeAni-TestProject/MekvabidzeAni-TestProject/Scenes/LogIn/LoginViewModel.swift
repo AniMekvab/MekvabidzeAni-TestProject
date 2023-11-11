@@ -1,5 +1,5 @@
 //
-//  LoginViewModel.swift
+//  LoginViewModelREF.swift
 //  MekvabidzeAni-TestProject
 //
 //  Created by Ani Mekvabidze on 11/10/23.
@@ -7,22 +7,21 @@
 
 import Foundation
 
-protocol LoginViewModelProtocol: AnyObject {
+protocol LoginViewModel: AnyObject {
     func login(email: String, password: String, completion: @escaping ((Result<User?, AuthorizationError>) -> Void))
-    
-    init(with coreDataManager: CoreDataManagerProtocol)
+    init(with loginUseCase: LoginUseCase)
 }
 
-final class LoginViewModel: LoginViewModelProtocol {
+final class DefaultLoginViewModel: LoginViewModel {
     
-    private let coreDataManager: CoreDataManagerProtocol
+    private let loginUseCase: LoginUseCase
     
-    init(with coreDataManager: CoreDataManagerProtocol) {
-        self.coreDataManager = coreDataManager
+    init(with loginUseCase: LoginUseCase) {
+        self.loginUseCase = loginUseCase
     }
     
     func login(email: String, password: String, completion: @escaping ((Result<User?, AuthorizationError>) -> Void)) {
-        coreDataManager.login(with: email, with: password, completion: completion)
+        loginUseCase.login(with: email, with: password, completion: completion)
     }
     
 }

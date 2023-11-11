@@ -9,173 +9,161 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    // MARK: - Properties
-    private let emailTextField: UITextField = {
-        SetUpUI.textField(placeholder: "Email")
+    //MARK: - Variables
+    
+    private var viewModel: LoginViewModel
+    private var email: String { emailTextField.textField.text ?? "" }
+    private var password: String { passwordTextField.textField.text ?? "" }
+    
+    // MARK: - Views
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton, registerButton])
+        stackView.distribution = .fill
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    //test commit
+    private lazy var emailTextField: CustomTextField = .init(model: .init(placeholder: "Email",
+                                                                          delegate: self,
+                                                                          status: .normal))
+    
+    private lazy var passwordTextField: CustomTextField = .init(model: .init(placeholder: "Password",
+                                                                             delegate: self,
+                                                                             status: .normal))
+    
+    private lazy var loginButton: CustomButton = {
+        let button = CustomButton(model: .init(title: "LOGIN"))
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        return button
     }()
     
-    private let invalidEmailLabel: UILabel = {
-        SetUpUI.label(text: "Email is invalid")
+    private lazy var registerButton: CustomButton = {
+        let button = CustomButton(model: .init(title: "REGISTER"))
+        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+        return button
     }()
     
-    private let passwordTextField: UITextField = {
-        SetUpUI.textField(placeholder: "Password")
-    }()
+    //MARK: - Init
     
-    private let invalidPasswordLabel: UILabel = {
-        SetUpUI.label(text: "Password is invalid")
-    }()
-    
-    private let loginButton: UIButton = {
-        SetUpUI.button(title: "Log In")
-    }()
-
-    private let registerButton: UIButton = {
-        SetUpUI.button(title: "Register")
-    }()
-    
-    private var coreDataManager: CoreDataManagerProtocol!
-    private var viewModel: LoginViewModelProtocol!
-    
-    private var email: String { emailTextField.text ?? "" }
-    private var password: String { passwordTextField.text ?? "" }
-    
-    // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-        
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        addSubviews()
-        
-        configureViewModel()
-    }
-
-    override func viewDidLayoutSubviews() {
-        //assign frames
-        emailTextField.frame = CGRect(
-            x: 25,
-            y: view.safeAreaInsets.top + 12,
-            width: view.width - 50,
-            height: 48)
-        
-        invalidEmailLabel.frame = CGRect(
-            x: 27,
-            y: emailTextField.bottom + 2,
-            width: view.width - 50,
-            height: 12.0)
-        
-        passwordTextField.frame = CGRect(
-            x: 25,
-            y: invalidEmailLabel.bottom + 8,
-            width: view.width - 50,
-            height: 48)
-        
-        invalidPasswordLabel.frame = CGRect(
-            x: 27,
-            y: passwordTextField.bottom + 2,
-            width: view.width - 50,
-            height: 12.0)
-        
-        loginButton.frame = CGRect(
-            x: 25,
-            y: invalidPasswordLabel.bottom + 24,
-            width: view.width - 50,
-            height: 48)
-        
-        registerButton.frame = CGRect(
-            x: 25,
-            y: loginButton.bottom + 10,
-            width: view.width - 50,
-            height: 48)
-            
+    public init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
-    // MARK: - Setup
-    private func addSubviews() {
-        view.addSubview(emailTextField)
-        view.addSubview(invalidEmailLabel)
-        view.addSubview(passwordTextField)
-        view.addSubview(invalidPasswordLabel)
-        view.addSubview(loginButton)
-        view.addSubview(registerButton)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-    @objc private func loginButtonTapped() {
-        // to dismiss keyboard
-        passwordTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-        
-        if checkInputs() {
-            if CheckValidation.isValidEmail(email) {
-                if CheckValidation.isValidPassword(password) {
-                    loginUser()
-                } else {
-                    self.showAlert(with: "Password not Valid")
-                }
-            } else {
-                self.showAlert(with: "Email not Valid")
-            }
-        } else {
-            showAlert(with: "Feel All Fields")
-        }
-    }
-    
-    @objc private func registerButtonTapped() {
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController
-        self.navigationController?.pushViewController(vc!, animated: true)
-    }
-    
-    private func configureViewModel() {
-        coreDataManager = CoreDataManager()
-        viewModel = LoginViewModel(with: coreDataManager)
-    }
-    
-    private func loginUser() {
-        viewModel.login(email: email, password: password) { result in
-            switch result {
-            case .success(_):
-                let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoGalleryViewController") as? PhotoGalleryViewController
-                self.navigationController?.pushViewController(vc!, animated: true)
-            case .failure(let error):
-                if error == .userNotFound {
-                    self.showAlert(with: "Something went wrong, username or passcode is incorrect!")
-                }
-                if error == .unknownError {
-                    self.showAlert(with: "User was never registered")
-                }
-            }
-        }
-    }
-    
-    // MARK: - Registration Validations
-    private func checkInputs() -> Bool {
-        return emailTextField.hasText || passwordTextField.hasText
-    }
-    
-    private func showAlert(with message: String) {
-         
-         let alert = UIAlertController(title: "Error",
-                                       message: message,
-                                       preferredStyle: .alert)
-
-         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-         self.present(alert, animated: true)
-     }
     
 }
 
-extension LoginViewController: UITextFieldDelegate{
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == emailTextField {
-            passwordTextField.becomeFirstResponder()
+    //MARK: - LifeCycle
+
+extension LoginViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupAppearance()
+    }
+}
+
+    //MARK: - Setup
+
+extension LoginViewController {
+    private func setupAppearance() {
+        navigationController?.title = "Login"
+        self.view.backgroundColor = .systemBackground
+        buildSubviews()
+        buildConstraints()
+    }
+    
+    private func buildSubviews() {
+        view.addSubview(stackView)
+    }
+    
+    private func buildConstraints() {
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16)
+        ])
+    }
+}
+
+   //MARK: - Helper
+
+extension LoginViewController {
+    @objc private func loginButtonTapped() {
+        // to dismiss keyboard
+        passwordTextField.textField.resignFirstResponder()
+        emailTextField.textField.resignFirstResponder()
+
+        let vc = PhotoGalleryViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+//        if checkInputs() {
+//            if CheckValidation.isValidEmail(email) {
+//                if CheckValidation.isValidPassword(password) {
+//                    loginUser()
+//                } else {
+//                    passwordTextField.setStatus(.error("Password not Valid"))
+//                }
+//            } else {
+//                emailTextField.setStatus(.error("Email not Valid"))
+//            }
+//        } else {
+//            showAlert(with: "Feel All Fields")
+//        }
+    }
+    
+    @objc private func registerButtonTapped() {
+        let vc = RegisterViewController(
+            viewModel: DefaultRegisterViewModel.init(
+                with: RegisterUseCaseImp(
+                    repository: AuthorizationRepositoryImp(
+                        coreDataManager: CoreDataManager()))))
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func loginUser() {
+        viewModel.login(email: email, password: password) { [weak self] result in
+            switch result {
+            case .success(_):
+                let vc = PhotoGalleryViewController()
+                self?.navigationController?.pushViewController(vc, animated: true)
+            case .failure(let error):
+                if error == .userNotFound {
+                    self?.showAlert(with: "Something went wrong, username or passcode is incorrect!")
+                }
+                if error == .unknownError {
+                    self?.showAlert(with: "User was never registered")
+                }
+            }
         }
-        else if textField == passwordTextField {
+    }
+    
+    private func checkInputs() -> Bool {
+        return emailTextField.textField.hasText || passwordTextField.textField.hasText 
+    }
+    
+    private func showAlert(with message: String) {
+        let alert = UIAlertController(title: "Error",
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+}
+
+    //MARK: - Delegate
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField.textField {
+            passwordTextField.textField.becomeFirstResponder()
+        }
+        else if textField == passwordTextField.textField {
             loginButtonTapped()
         }
         return true

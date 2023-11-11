@@ -28,6 +28,5 @@ final class DefaultRegisterViewModel: RegisterViewModel {
             registrationSuccess = success
         }
         return registrationSuccess
-
     }
 }

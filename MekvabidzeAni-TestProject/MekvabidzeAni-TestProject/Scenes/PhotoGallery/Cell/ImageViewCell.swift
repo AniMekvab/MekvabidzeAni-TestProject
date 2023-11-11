@@ -136,14 +136,6 @@ class ImageViewCell: UITableViewCell {
             })
             .assign(to: \.image, on: mainImageView)
     }
-    
-//    func printViewHierarchy(_ view: UIView) {
-//        for sub in view.subviews {
-//            if sub.hasAmbiguousLayout {
-//                printViewHierarchy(sub)
-//            }
-//        }
-//    }
 }
 
 
