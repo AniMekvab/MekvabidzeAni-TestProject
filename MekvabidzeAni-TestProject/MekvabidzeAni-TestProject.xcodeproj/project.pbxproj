@@ -273,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				63E55F432AFFF6C7004F9D1B /* ImageViewCell.swift */,
+				63E55F462AFFF73E004F9D1B /* ImageViewModel.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -280,7 +281,6 @@
 		63E55F452AFFF723004F9D1B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				63E55F462AFFF73E004F9D1B /* ImageViewModel.swift */,
 				63E55F482AFFF756004F9D1B /* ImagesViewModel.swift */,
 			);
 			path = ViewModels;
