@@ -9,11 +9,16 @@ import UIKit
 import Combine
 
 class PhotoGalleryViewController: UIViewController {
+    
+    //MARK: - Variables
 
     private var subscriptions: Set<AnyCancellable> = []
     private let viewModel: ImagesViewModel = ImagesViewModel()
+    private var tableViewDataSource: PhotoGalleryTableDataSource!
 
-    lazy var tableView: UITableView = {
+    // MARK: - Views
+
+    private lazy var tableView: UITableView = {
         let view = UITableView()
         view.register(ImageViewCell.self, forCellReuseIdentifier: ImageViewCell.identifier)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -23,28 +28,35 @@ class PhotoGalleryViewController: UIViewController {
         
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        bindViewModel()
-        setUpTableView()
-        self.view.backgroundColor = .systemBackground
-    }
-
-    func bindViewModel() {
+    private func bindViewModel() {
         viewModel.$imageViewModels
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (images) in
                 self?.tableView.reloadData()
             }
             .store(in: &subscriptions)
-        
     }
+    
+}
 
-    func setUpTableView() {
+//MARK: - LifeCycle
+
+extension PhotoGalleryViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bindViewModel()
+        setUpTableView()
+        self.view.backgroundColor = .systemBackground
+    }
+}
+
+
+//MARK: - Setup
+
+extension PhotoGalleryViewController {
+    private func setUpTableView() {
         let margins = view.safeAreaLayoutGuide
-        
-        tableView.dataSource = self
-        tableView.delegate = self
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -54,26 +66,7 @@ class PhotoGalleryViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
         ])
         
-    }
-}
-
-extension PhotoGalleryViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.imageViewModels.count
-        
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImageViewCell.identifier, for: indexPath) as! ImageViewCell
-        cell.viewModel = viewModel.imageViewModel(at: indexPath)
-        return cell
-        
+        tableViewDataSource = .init(with: tableView, viewModel: viewModel, viewController: self)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
-        print("indexPath:", indexPath)
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController
-        vc?.imageViewModel = viewModel.imageViewModel(at: indexPath)
-        self.navigationController?.pushViewController(vc!, animated: true)
-    }
 }

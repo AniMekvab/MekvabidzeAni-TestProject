@@ -10,10 +10,14 @@ import UIKit
 
 class ImageViewCell: UITableViewCell {
     
+    //MARK: - Variables
+
     static let identifier = String(describing: ImageViewCell.self)
     private var aspectConstraint: NSLayoutConstraint!
     private var subscription: Cancellable!
     
+    // MARK: - Views
+
     lazy var mainImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +43,8 @@ class ImageViewCell: UITableViewCell {
         }
     }
     
+    //MARK: - Init
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUp()
@@ -78,6 +84,8 @@ class ImageViewCell: UITableViewCell {
         setUpActivityIndicator()
     }
     
+    //MARK: - Setup
+
     private func setUpActivityIndicator() {
         mainImageView.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
