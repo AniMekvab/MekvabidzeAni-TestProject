@@ -9,6 +9,9 @@ import Combine
 import UIKit
 
 class ImageViewModel {
+    
+    //MARK: - Variables
+
     private let imageEntity: ImageEntity
     private let imageLoader: ImageLoader
     
@@ -64,6 +67,8 @@ class ImageViewModel {
         return URL(string: imageEntity.largeImageURL)
     }
     
+    //MARK: - Init
+
     init(imageEntity: ImageEntity, imageLoader: ImageLoader) {
         self.imageEntity = imageEntity
         self.imageLoader = imageLoader
