@@ -9,6 +9,7 @@ import UIKit
 
 struct CustomTextFieldModel {
     let placeholder: String
+    let tag: Int
     let delegate: UITextFieldDelegate?
     let status: Status
     

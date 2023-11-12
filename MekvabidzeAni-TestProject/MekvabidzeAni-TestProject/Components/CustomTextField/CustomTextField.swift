@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomTextField: UITextField {
+class CustomTextField: UIView {
     
     //MARK: - Views
     
@@ -15,13 +15,13 @@ class CustomTextField: UITextField {
         let stackView = UIStackView(arrangedSubviews: [textField, errorLabel])
         stackView.distribution = .fill
         stackView.axis = .vertical
+        stackView.spacing = 4
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     var textField: UITextField = {
         let textField = UITextField()
-        textField.returnKeyType = .next
         textField.leftViewMode = .always
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.autocapitalizationType = .none
@@ -85,10 +85,6 @@ extension CustomTextField {
         NSLayoutConstraint.activate([
             textField.heightAnchor.constraint(equalToConstant: 48)
         ])
-        
-        NSLayoutConstraint.activate([
-            errorLabel.heightAnchor.constraint(equalToConstant: 12)
-        ])
     }
 }
 
@@ -97,6 +93,7 @@ extension CustomTextField {
 extension CustomTextField {
     func configure(with model: CustomTextFieldModel) {
         textField.placeholder = model.placeholder
+        textField.tag = model.tag
         textField.delegate = model.delegate
         configureStatus(status: model.status)
     }
@@ -106,9 +103,11 @@ extension CustomTextField {
         case .error(let message):
             errorLabel.isHidden = false
             errorLabel.text = message
+            textField.layer.borderColor = UIColor.systemRed.cgColor
         default:
             errorLabel.isHidden = true
             errorLabel.text = ""
+            textField.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
 }

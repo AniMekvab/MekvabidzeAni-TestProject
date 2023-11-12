@@ -12,8 +12,10 @@ class LoginViewController: UIViewController {
     //MARK: - Variables
     
     private var viewModel: LoginViewModel
-    private var email: String { emailTextField.textField.text ?? "" }
-    private var password: String { passwordTextField.textField.text ?? "" }
+    private var emailText: String { emailTextField.textField.text.notNil }
+    private var passwordText: String { passwordTextField.textField.text.notNil }
+    private var emailTag: Int { 1 }
+    private var passwordTag: Int { 2 }
     
     // MARK: - Views
     
@@ -27,10 +29,12 @@ class LoginViewController: UIViewController {
     }()
 
     private lazy var emailTextField: CustomTextField = .init(model: .init(placeholder: "Email",
+                                                                          tag: emailTag,
                                                                           delegate: self,
                                                                           status: .normal))
     
     private lazy var passwordTextField: CustomTextField = .init(model: .init(placeholder: "Password",
+                                                                             tag: passwordTag,
                                                                              delegate: self,
                                                                              status: .normal))
     
@@ -72,8 +76,8 @@ extension LoginViewController {
 
 extension LoginViewController {
     private func setupAppearance() {
-        navigationController?.title = "Login"
-        self.view.backgroundColor = .systemBackground
+        title = "Login"
+        view.backgroundColor = .systemBackground
         buildSubviews()
         buildConstraints()
     }
@@ -96,63 +100,84 @@ extension LoginViewController {
 extension LoginViewController {
     @objc private func loginButtonTapped() {
         // to dismiss keyboard
-        passwordTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-
-        let vc = PhotoGalleryViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        passwordTextField.textField.resignFirstResponder()
+        emailTextField.textField.resignFirstResponder()
         
-//        if checkInputs() {
-//            if CheckValidation.isValidEmail(email) {
-//                if CheckValidation.isValidPassword(password) {
-//                    loginUser()
-//                } else {
-//                    passwordTextField.setStatus(.error("Password not Valid"))
-//                }
-//            } else {
-//                emailTextField.setStatus(.error("Email not Valid"))
-//            }
-//        } else {
-//            showAlert(with: "Feel All Fields")
-//        }
+        var validationSuccess: Bool = true
+        
+        validateEmail(validationSuccess: &validationSuccess)
+        validatePassword(validationSuccess: &validationSuccess)
+        
+        if validationSuccess {
+            loginUser()
+        }
     }
     
     @objc private func registerButtonTapped() {
-        let vc = RegisterViewController(
-            viewModel: DefaultRegisterViewModel.init(
-                with: RegisterUseCaseImp(
-                    repository: AuthorizationRepositoryImp(
-                        coreDataManager: CoreDataManager()))))
-        self.navigationController?.pushViewController(vc, animated: true)
+        toRegister()
+    }
+    
+    func validateEmail(validationSuccess: inout Bool) {
+        let status = viewModel.validateEmail(emailText)
+        switch status {
+        case .success:
+            emailTextField.setStatus(.normal)
+        case .empty:
+            emailTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        case .notValid:
+            emailTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        }
+    }
+    
+    func validatePassword(validationSuccess: inout Bool) {
+        let status = viewModel.validatePassword(passwordText)
+        switch status {
+        case .success:
+            passwordTextField.setStatus(.normal)
+        case .empty:
+            passwordTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        case .notValid:
+            passwordTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        }
     }
     
     private func loginUser() {
-        viewModel.login(email: email, password: password) { [weak self] result in
+        viewModel.login(email: emailText, password: passwordText) { [weak self] result in
             switch result {
-            case .success(_):
-                let vc = PhotoGalleryViewController()
-                self?.navigationController?.pushViewController(vc, animated: true)
+            case .success:
+                self?.toPhotoGallery()
             case .failure(let error):
-                if error == .userNotFound {
-                    self?.showAlert(with: "Something went wrong, username or passcode is incorrect!")
-                }
-                if error == .unknownError {
-                    self?.showAlert(with: "User was never registered")
+                switch error {
+                case .userNotFound:
+                    self?.showSimpleAlert(title: "Error", message: "Something went wrong, username or passcode is incorrect!")
+                case .unknownError:
+                    self?.showSimpleAlert(title: "Error", message: "User was never registered")
                 }
             }
         }
     }
     
-    private func checkInputs() -> Bool {
-        return emailTextField.textField.hasText || passwordTextField.textField.hasText 
+    //MARK: - Navigation
+    
+    private func toPhotoGallery() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let sceneDelegate = windowScene.delegate as? SceneDelegate {
+            let vc = PhotoGalleryViewController()
+            let nc = UINavigationController(rootViewController: vc)
+            sceneDelegate.changeRootViewController(nc)
+        }
     }
     
-    private func showAlert(with message: String) {
-        let alert = UIAlertController(title: "Error",
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
+    private func toRegister() {
+        let vc = RegisterViewController(
+            viewModel: DefaultRegisterViewModel.init(
+                registerUseCase: RegisterUseCaseImp(
+                    repository: AuthorizationRepositoryImp(
+                        coreDataManager: CoreDataManager()))))
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -160,10 +185,10 @@ extension LoginViewController {
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == emailTextField {
-            passwordTextField.becomeFirstResponder()
-        }
-        else if textField == passwordTextField {
+        if textField.tag == emailTag {
+            emailTextField.textField.resignFirstResponder()
+            passwordTextField.textField.becomeFirstResponder()
+        } else if textField.tag == passwordTag {
             loginButtonTapped()
         }
         return true

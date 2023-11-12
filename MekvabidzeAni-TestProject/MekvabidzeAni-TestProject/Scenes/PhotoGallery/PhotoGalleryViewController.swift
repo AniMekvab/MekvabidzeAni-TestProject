@@ -13,7 +13,7 @@ class PhotoGalleryViewController: UIViewController {
     //MARK: - Variables
 
     private var subscriptions: Set<AnyCancellable> = []
-    private let viewModel: ImagesViewModel = ImagesViewModel()
+    private var viewModel: ImagesViewModel
     private var tableViewDataSource: PhotoGalleryTableDataSource!
 
     // MARK: - Views
@@ -27,6 +27,17 @@ class PhotoGalleryViewController: UIViewController {
         return view
         
     }()
+    
+    //MARK: - Init
+    
+    public init(viewModel: ImagesViewModel = ImagesViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     private func bindViewModel() {
         viewModel.$imageViewModels
@@ -38,6 +49,7 @@ class PhotoGalleryViewController: UIViewController {
     }
     
 }
+
 
 //MARK: - LifeCycle
 

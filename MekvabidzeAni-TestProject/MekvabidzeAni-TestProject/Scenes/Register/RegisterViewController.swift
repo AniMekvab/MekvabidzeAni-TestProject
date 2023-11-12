@@ -12,9 +12,12 @@ class RegisterViewController: UIViewController {
     // MARK: - Variables
     
     private var viewModel: RegisterViewModel
-    private var email: String { emailTextField.textField.text ?? "" }
-    private var age: String { ageTextField.textField.text ?? "" }
-    private var password: String { passwordTextField.textField.text ?? "" }
+    private var emailText: String { emailTextField.textField.text.notNil }
+    private var ageText: String { ageTextField.textField.text.notNil }
+    private var passwordText: String { passwordTextField.textField.text.notNil }
+    private var emailTag: Int { 1 }
+    private var ageTag: Int { 2 }
+    private var passwordTag: Int { 3 }
     
     // MARK: - Views
     
@@ -28,14 +31,17 @@ class RegisterViewController: UIViewController {
     }()
     
     private lazy var emailTextField: CustomTextField = .init(model: .init(placeholder: "Email",
+                                                                          tag: emailTag,
                                                                           delegate: self,
                                                                           status: .normal))
     
     private lazy var ageTextField: CustomTextField = .init(model: .init(placeholder: "Age",
+                                                                        tag: ageTag,
                                                                         delegate: self,
                                                                         status: .normal))
     
     private lazy var passwordTextField: CustomTextField = .init(model: .init(placeholder: "Password",
+                                                                             tag: passwordTag,
                                                                              delegate: self,
                                                                              status: .normal))
     
@@ -72,8 +78,8 @@ extension RegisterViewController {
 
 extension RegisterViewController {
     private func setupAppearance() {
-        navigationController?.title = "Register"
-        self.view.backgroundColor = .systemBackground
+        title = "Register"
+        view.backgroundColor = .systemBackground
         buildSubviews()
         buildConstraints()
     }
@@ -100,63 +106,94 @@ extension RegisterViewController {
         ageTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
         
-        if checkInputs() {
-            if CheckValidation.isValidEmail(email) {
-                if CheckValidation.isValidAge(Int(age) ?? 0) {
-                    if CheckValidation.isValidPassword(password) {
-                        registerUser()
-                    } else {
-                        passwordTextField.setStatus(.error("Password not Valid"))
-                    }
-                } else {
-                    emailTextField.setStatus(.error("Age not Valid"))
-                }
-            } else {
-                emailTextField.setStatus(.error("Email not Valid"))
-            }
-        } else {
-            self.showAlert(with: "Feel All Fields")
+        var validationSuccess: Bool = true
+        
+        validateEmail(validationSuccess: &validationSuccess)
+        validateAge(validationSuccess: &validationSuccess)
+        validatePassword(validationSuccess: &validationSuccess)
+        
+        if validationSuccess {
+            registerUser()
+        }
+    }
+    
+    func validateEmail(validationSuccess: inout Bool) {
+        let status = viewModel.validateEmail(emailText)
+        switch status {
+        case .success:
+            emailTextField.setStatus(.normal)
+        case .empty:
+            emailTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        case .notValid:
+            emailTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        }
+    }
+    
+    func validateAge(validationSuccess: inout Bool) {
+        let status = viewModel.validateAge(ageText)
+        switch status {
+        case .success:
+            ageTextField.setStatus(.normal)
+        case .empty:
+            ageTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        case .notValid:
+            ageTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        }
+    }
+    
+    func validatePassword(validationSuccess: inout Bool) {
+        let status = viewModel.validatePassword(passwordText)
+        switch status {
+        case .success:
+            passwordTextField.setStatus(.normal)
+        case .empty:
+            passwordTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
+        case .notValid:
+            passwordTextField.setStatus(.error(status.errorMessage))
+            validationSuccess = false
         }
     }
    
     private func registerUser() {
-        if viewModel.registration(email: email, age: age, password: password) == true {
-            let vc = PhotoGalleryViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+        viewModel.register(email: emailText,
+                           age: ageText,
+                           password: passwordText) { [weak self] success in
+            if success {
+                self?.toPhotoGallery()
+            } else {
+                self?.showSimpleAlert(message: "Error Acquired")
+            }
         }
     }
-    
-    private func checkInputs() -> Bool {
-        return emailTextField.textField.hasText  || ageTextField.textField.hasText  || passwordTextField.textField.hasText 
-    }
-    
-    private func showAlert(with message: String) {
-         let alert = UIAlertController(title: "",
-                                       message: message,
-                                       preferredStyle: .alert)
-         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-         self.present(alert, animated: true)
-     }
      
-     // MARK: - Navigation Method
+    //MARK: - Navigation
     
-     private func popToWelcomePage(){
-        self.navigationController?.popViewController(animated: true)
-     }
+    private func toPhotoGallery() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let sceneDelegate = windowScene.delegate as? SceneDelegate {
+            let vc = PhotoGalleryViewController()
+            let nc = UINavigationController(rootViewController: vc)
+            sceneDelegate.changeRootViewController(nc)
+        }
+    }
 }
     
 
    //MARK: - Delegate
 
-extension RegisterViewController: UITextFieldDelegate{
+extension RegisterViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == emailTextField {
-            ageTextField.becomeFirstResponder()
-        }
-        else if textField == ageTextField {
-            passwordTextField.becomeFirstResponder()
-        }
-        else {
+        if textField.tag == emailTag {
+            emailTextField.textField.resignFirstResponder()
+            ageTextField.textField.becomeFirstResponder()
+        } else if textField.tag == ageTag {
+            ageTextField.textField.resignFirstResponder()
+            passwordTextField.textField.becomeFirstResponder()
+        } else if textField.tag == passwordTag {
             registerButtonTapped()
         }
         return true

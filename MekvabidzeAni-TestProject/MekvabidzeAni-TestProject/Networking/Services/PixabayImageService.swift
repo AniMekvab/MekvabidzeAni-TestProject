@@ -15,15 +15,19 @@ protocol PixabayImageServiceProtocol {
 class PixabayImageService: PixabayImageServiceProtocol {
     func fetchImages(pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error> {
         
-        var components = URLComponents(string: "https://pixabay.com/api")!
-        components.queryItems = [
+        var components = URLComponents(string: "https://pixabay.com/api")
+        components?.queryItems = [
             .init(name: "key", value: "40548542-cda5c7ce6935f2bbed99b765b"),
             .init(name: "image_type", value: "photo"),
             .init(name: "per_page", value: "\(imagesPerPage)"),
             .init(name: "page", value: "\(pageNumber)"),
         ]
         
-        let request = URLRequest(url: components.url!)
+        guard let url = components?.url else {
+            return Combine.Empty().eraseToAnyPublisher()
+        }
+        
+        let request = URLRequest(url: url)
         
         return URLSession.shared.dataTaskPublisher(for: request)
             .map { $0.data }
