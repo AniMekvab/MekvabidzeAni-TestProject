@@ -26,12 +26,6 @@ class ImageViewCell: UITableViewCell {
         return view
     }()
     
-    lazy var likeLabel: UILabel = {
-        let view = UILabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     lazy var authorNameLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +61,6 @@ class ImageViewCell: UITableViewCell {
     
     private func setUp() {
         contentView.addSubview(mainImageView)
-        contentView.addSubview(likeLabel)
         contentView.addSubview(authorNameLabel)
 
         let margins = contentView.layoutMarginsGuide
@@ -77,16 +70,9 @@ class ImageViewCell: UITableViewCell {
             mainImageView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
             mainImageView.topAnchor.constraint(equalTo: margins.topAnchor),
 
-            likeLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor),
-            likeLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            likeLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
-
-            authorNameLabel.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            authorNameLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             authorNameLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor),
-            authorNameLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
-
-            likeLabel.widthAnchor.constraint(equalTo: authorNameLabel.widthAnchor),
-            likeLabel.trailingAnchor.constraint(equalTo: authorNameLabel.leadingAnchor, constant: 8)
+            authorNameLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
         ])
         
         setUpActivityIndicator()
@@ -102,7 +88,6 @@ class ImageViewCell: UITableViewCell {
     
     private func setUpViewModel() {
         mainImageView.accessibilityIdentifier = "MainImageView"
-        likeLabel.text = viewModel.likes
         authorNameLabel.text = viewModel.userName
         
         //aspect constraint

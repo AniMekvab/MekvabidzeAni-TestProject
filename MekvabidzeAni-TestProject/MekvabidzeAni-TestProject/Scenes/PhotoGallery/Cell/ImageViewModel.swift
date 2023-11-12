@@ -13,11 +13,11 @@ class ImageViewModel {
     private let imageLoader: ImageLoader
     
     var likes: String {
-        return "likes:" + "\(imageEntity.likes)"
+        return "likes: " + "\(imageEntity.likes)"
     }
     
     var userName: String {
-        return "user:" + "\(imageEntity.user) "
+        return "user: " + "\(imageEntity.user) "
     }
     
     var id: String {
