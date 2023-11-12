@@ -5,8 +5,8 @@
 //  Created by Ani Mekvabidze on 11/12/23.
 //
 
-extension Swift.Optional where Wrapped == Int {
-    var notNil: Int {
-        self ?? 0
+extension Int {
+    var toString: String {
+        "\(self)"
     }
 }

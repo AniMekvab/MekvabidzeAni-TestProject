@@ -22,5 +22,4 @@ class PixabayImageUseCaseImp: PixabayImageUseCase {
     func execute(pageNumber: Int, imagesPerPage: Int) -> AnyPublisher<[ImageEntity], Error> {
         repository.fetchImages(pageNumber: pageNumber, imagesPerPage: imagesPerPage)
     }
-    
 }
