@@ -19,11 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         window?.rootViewController = UINavigationController(rootViewController: LoginViewController(
-            viewModel: DefaultLoginViewModel(
-                with: LoginUseCaseImp(
-                    repository: AuthorizationRepositoryImp(
-                        coreDataManager: CoreDataManager())))))
-        window?.makeKeyAndVisible()
+                viewModel: DefaultLoginViewModel(
+                    loginUseCase: LoginUseCaseImp(
+                        repository: AuthorizationRepositoryImp(
+                            coreDataManager: CoreDataManager())))))
+            window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -57,6 +57,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
+    func changeRootViewController(_ navigationController: UINavigationController) {
+        guard let window = window else { return }
+        UIView.transition(with: window,
+                          duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: { [weak self] in
+            self?.window?.rootViewController = navigationController
+        })
+    }
 
 }
 

@@ -12,9 +12,9 @@ final class PhotoGalleryTableDataSource: NSObject, UITableViewDataSource {
     
     //MARK: - Variables
 
-    private var tableView: UITableView!
-    private var viewModel: ImagesViewModel
-    private var viewController: UIViewController
+    private weak var tableView: UITableView?
+    private weak var viewModel: ImagesViewModel?
+    private weak var viewController: UIViewController?
 
     //MARK: - Init
 
@@ -23,17 +23,17 @@ final class PhotoGalleryTableDataSource: NSObject, UITableViewDataSource {
         self.viewModel = viewModel
         self.viewController = viewController
         super.init()
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
+        self.tableView?.dataSource = self
+        self.tableView?.delegate = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.imageViewModels.count            
+        return viewModel?.imageViewModels.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImageViewCell.identifier, for: indexPath) as! ImageViewCell
-        cell.viewModel = viewModel.imageViewModel(at: indexPath)
+        cell.viewModel = viewModel?.imageViewModel(at: indexPath)
         return cell
     }
     
@@ -44,9 +44,10 @@ final class PhotoGalleryTableDataSource: NSObject, UITableViewDataSource {
 extension PhotoGalleryTableDataSource: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("indexPath:", indexPath)
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController
-        vc?.imageViewModel = viewModel.imageViewModel(at: indexPath)
-        viewController.navigationController?.pushViewController(vc!, animated: true)
+        let vc = PhotoDetailViewController()
+//        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController
+        vc.imageViewModel = viewModel?.imageViewModel(at: indexPath)
+        viewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
 }
