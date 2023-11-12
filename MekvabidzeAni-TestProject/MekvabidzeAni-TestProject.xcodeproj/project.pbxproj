@@ -227,8 +227,8 @@
 		633DC51C2AFD3F5400F45D66 /* PhotoDetail */ = {
 			isa = PBXGroup;
 			children = (
+				63F76E0C2B011178009B0DDB /* Cell */,
 				633DC50D2AFD2A0300F45D66 /* PhotoDetailViewController.swift */,
-				63F76DF92B00EE9B009B0DDB /* PhotoDetailTableViewCell.swift */,
 			);
 			path = PhotoDetail;
 			sourceTree = "<group>";
@@ -346,6 +346,14 @@
 				63F76E042B010961009B0DDB /* PasswordValidation.swift */,
 			);
 			path = Validation;
+			sourceTree = "<group>";
+		};
+		63F76E0C2B011178009B0DDB /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				63F76DF92B00EE9B009B0DDB /* PhotoDetailTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		71F28D002AFEB82A00CD6095 /* Components */ = {

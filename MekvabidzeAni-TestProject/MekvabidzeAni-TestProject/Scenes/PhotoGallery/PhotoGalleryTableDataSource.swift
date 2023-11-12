@@ -45,7 +45,6 @@ extension PhotoGalleryTableDataSource: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("indexPath:", indexPath)
         let vc = PhotoDetailViewController()
-//        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController
         vc.imageViewModel = viewModel?.imageViewModel(at: indexPath)
         viewController?.navigationController?.pushViewController(vc, animated: true)
     }
