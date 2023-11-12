@@ -165,7 +165,7 @@ extension LoginViewController {
     
     private func toPhotoGallery() {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let sceneDelegate = windowScene.delegate as? SceneDelegate {
-            let vc = PhotoGalleryViewController()
+            let vc = GalleryViewController()
             let nc = UINavigationController(rootViewController: vc)
             sceneDelegate.changeRootViewController(nc)
         }
